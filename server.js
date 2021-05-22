@@ -59,7 +59,14 @@ const tables = [
     phoneNumber: "Phone 5",
   },
 ];
-const waitList = [];
+const waitList = [
+  {
+    customerName: "Name 6",
+    customerEmail: "EMail 6",
+    customerID: "6",
+    phoneNumber: "Phone 6",
+  },
+];
 
 // Routes
 
@@ -74,7 +81,7 @@ app.get("/tables", (req, res) =>
   res.sendFile(path.join(__dirname, "tables.html"))
 );
 
-// Create New Characters - takes in JSON input
+// Create New Table - takes in JSON input
 app.post("/reserve", (req, res) => {
   // req.body hosts is equal to the JSON post sent from the user
   // This works because of our body parsing middleware
@@ -91,6 +98,16 @@ app.post("/reserve", (req, res) => {
     res.send(false);
     //
   }
+  //
+});
+
+// Clears the Table and Waiting List objects
+app.post("/api/clear", (req, res) => {
+  //
+  tables.splice(0, tables.length);
+  waitList.splice(0, waitList.length);
+  //
+  res.send(true);
   //
 });
 
