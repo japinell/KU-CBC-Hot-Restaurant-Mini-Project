@@ -8,6 +8,9 @@ const path = require("path");
 const app = express();
 const PORT = 3000;
 
+//
+const MAX_TABLES = 5;
+
 // Sets up the Express app to handle data parsing
 app.use(
   express.urlencoded({
@@ -24,66 +27,71 @@ const table = {
   customerID: "",
   phoneNumber: "",
 };
-const tables = [];
-
-// Waitlist
-const waiting = {
-  customerName: "",
-  customerEmail: "",
-  phoneNumber: "",
-  customerID: "",
-};
+const tables = [
+  {
+    customerName: "Name 1",
+    customerEmail: "EMail 1",
+    customerID: "1",
+    phoneNumber: "Phone 1",
+  },
+  {
+    customerName: "Name 2",
+    customerEmail: "EMail 2",
+    customerID: "2",
+    phoneNumber: "Phone 2",
+  },
+  {
+    customerName: "Name 3",
+    customerEmail: "EMail 3",
+    customerID: "3",
+    phoneNumber: "Phone 3",
+  },
+  {
+    customerName: "Name 4",
+    customerEmail: "EMail 4",
+    customerID: "4",
+    phoneNumber: "Phone 4",
+  },
+  {
+    customerName: "Name 5",
+    customerEmail: "EMail 5",
+    customerID: "5",
+    phoneNumber: "Phone 5",
+  },
+];
 const waitList = [];
 
 // Routes
 
 // Basic route that sends the user first to the AJAX Page
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
-app.get("/api/tables", (req, res) =>
-  res.sendFile(path.join(__dirname, "tables.html"))
-);
-app.get("/api/waitlist", (req, res) =>
-  res.sendFile(path.join(__dirname, "waitlist.html"))
-);
+app.get("/api/tables", (req, res) => res.json(tables));
+app.get("/api/waitlist", (req, res) => res.json(waitList));
 app.get("/reserve", (req, res) =>
   res.sendFile(path.join(__dirname, "reserve.html"))
 );
-
-// Displays all characters
-// app.get("/api/characters", (req, res) => res.json(characters));
-
-// Displays a single character, or returns false
-// app.get("/api/characters/:character", (req, res) => {
-//   const chosen = req.params.character;
-
-//   console.log(chosen);
-
-//   /* Check each character routeName and see if the same as "chosen"
-//    If the statement is true, send the character back as JSON,
-//    otherwise tell the user no character was found */
-
-//   for (let i = 0; i < characters.length; i++) {
-//     if (chosen === characters[i].routeName) {
-//       return res.json(characters[i]);
-//     }
-//   }
-
-//   return res.json(false);
-// });
+app.get("/tables", (req, res) =>
+  res.sendFile(path.join(__dirname, "tables.html"))
+);
 
 // Create New Characters - takes in JSON input
-app.post("/api/reserve", (req, res) => {
+app.post("/reserve", (req, res) => {
   // req.body hosts is equal to the JSON post sent from the user
   // This works because of our body parsing middleware
   const table = req.body;
-  console.log(table);
-  // Using a RegEx Pattern to remove spaces from newCharacter
-  // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-  // newCharacter.routeName = newCharacter.name.replace(/\s+/g, "").toLowerCase();
-  // console.log(newCharacter);
-
-  tables.push(table);
-  //res.json(newCharacter);
+  //
+  if (tables.length < MAX_TABLES) {
+    //
+    tables.push(table);
+    res.send(true);
+    //
+  } else {
+    //
+    waitList.push(table);
+    res.send(false);
+    //
+  }
+  //
 });
 
 // Starts the server to begin listening

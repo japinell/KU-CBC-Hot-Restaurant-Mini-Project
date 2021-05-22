@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
+    <title>Tables Page</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1 class="text-center">
+          <span class="fa fa-fire"></span> Hot Restaurant
+        </h1>
+        <hr />
+        <h2 class="text-center">
+          We only have 5 tables! Book your seat before they all are gone!
+        </h2>
+        <br />
+
+        <div class="text-center">
+          <a href="/tables"
+            ><button class="btn btn-lg btn-primary">
+              <span class="fa fa-list-alt"></span> View Tables
+            </button></a
+          >
+          <a href="/reserve"
+            ><button class="btn btn-lg btn-danger">
+              <span class="fa fa-credit-card"></span> Make Reservation
+            </button></a
+          >
+        </div>
+      </div>
+
+      <footer class="footer">
+        <div class="container">
+          <p>
+            <a href="/api/tables">API Table Link</a> |
+            <a href="/api/waitlist">API Wait List</a>
+          </p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
+    <title>Tables Page</title>
+
+    <!-- Latest compiled and minified CSS & JS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1 class="text-center">
+          <span class="fa fa-fire"></span> Hot Restaurant
+        </h1>
+        <hr />
+        <h2 class="text-center">Current Reservations and Waiting List</h2>
+        <br />
+
+        <div class="text-center">
+          <a href="/reserve"
+            ><button class="btn btn-lg btn-danger">
+              <span class="fa fa-credit-card"></span> Make Reservation
+            </button></a
+          >
+          <a href="/"
+            ><button class="btn btn-lg btn-default">
+              <span class="fa fa-home"></span></button
+          ></a>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <!-- Current Tables in Use -->
+          <div class="card">
+            <div class="card-header">
+              <h4>Current Reservations</h4>
+            </div>
+            <div class="card-body">
+              <ul id="tableList" class="list-group"></ul>
+            </div>
+          </div>
+
+          <!-- Waiting List Card -->
+          <div class="card mt-4">
+            <div class="card-header">
+              <h4>Waiting List</h4>
+            </div>
+            <div class="card-body">
+              <ul id="waitList" class="list-group"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer mt-4">
+        <div class="container">
+          <p>Control Panel</p>
+          <p>
+            <a href="#" id="clear">Clear Table</a> |
+            <a href="/api/tables">API Table Link</a>
+            |
+            <a href="/api/waitlist">API Wait List</a>
+          </p>
+        </div>
+      </footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+      integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript">
+      // In this code, jQuery is used to "download" the data from our server
+      // We then dynamically display this content in our table. This is very similar to the group projects you just completed.
+      // It's also very similar to the NYT search application. In fact, I copied a ton of code from there.
+
+      function runTableQuery() {
+        // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+        $.ajax({ url: "/api/tables", method: "GET" }).then(function (data) {
+          // Here we then log the data to console, where it will show up as an object.
+          console.log(data);
+          console.log("------------------------------------");
+
+          // Loop through and display each of the customers
+          for (var i = 0; i < data.length; i++) {
+            // Get a reference to the tableList element and populate it with tables
+            var tableList = $("#tableList");
+
+            // Then display the fields in the HTML (Section Name, Date, URL)
+            var listItem = $("<li class='list-group-item mt-4'>");
+
+            listItem.append(
+              $("<h2>").text("Table #" + (i + 1)),
+              $("<hr>"),
+              $("<h2>").text("ID: " + data[i].customerID),
+              $("<h2>").text("Name: " + data[i].customerName),
+              $("<h2>").text("Email: " + data[i].customerEmail),
+              $("<h2>").text("Phone: " + data[i].phoneNumber)
+            );
+
+            tableList.append(listItem);
+          }
+        });
+      }
+
+      function runWaitListQuery() {
+        // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+        $.ajax({ url: "/api/waitlist", method: "GET" }).then(function (
+          waitData
+        ) {
+          // Here we then log the waitlistData to console, where it will show up as an object.
+          console.log(waitData);
+          console.log("------------------------------------");
+
+          // Loop through and display each of the customers
+          for (var i = 0; i < waitData.length; i++) {
+            // Get a reference to the waitList element and populate it with tables
+            var waitList = $("#waitList");
+
+            // Then display the fields in the HTML (Section Name, Date, URL)
+            var listItem = $("<li class='list-group-item mt-4'>");
+
+            listItem.append(
+              $("<h2>").text("Table #" + (i + 1)),
+              $("<hr>"),
+              $("<h2>").text("ID: " + waitData[i].customerID),
+              $("<h2>").text("Name: " + waitData[i].customerName),
+              $("<h2>").text("Email: " + waitData[i].customerEmail),
+              $("<h2>").text("Phone: " + waitData[i].phoneNumber)
+            );
+
+            waitList.append(listItem);
+          }
+        });
+      }
+
+      // This function resets all of the data in our tables. This is intended to let you restart a demo.
+      function clearTable() {
+        alert("Clearing...");
+
+        // Clear the tables on the server and then empty the elements on the client
+        $.ajax({ url: "/api/clear", method: "POST" }).then(function () {
+          $("#waitList").empty();
+          $("#tableList").empty();
+        });
+      }
+
+      $("#clear").on("click", clearTable);
+
+      // Run Queries!
+      // ==========================================
+      runTableQuery();
+      runWaitListQuery();
+    </script>
+  </body>
+  <!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS LOADED FROM OUR SERVER -->
+</html>
