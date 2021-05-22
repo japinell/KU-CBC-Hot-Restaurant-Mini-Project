@@ -52,20 +52,20 @@ const tables = [
     customerID: "4",
     phoneNumber: "Phone 4",
   },
-  {
-    customerName: "Name 5",
-    customerEmail: "EMail 5",
-    customerID: "5",
-    phoneNumber: "Phone 5",
-  },
+  // {
+  //   customerName: "Name 5",
+  //   customerEmail: "EMail 5",
+  //   customerID: "5",
+  //   phoneNumber: "Phone 5",
+  // },
 ];
 const waitList = [
-  {
-    customerName: "Name 6",
-    customerEmail: "EMail 6",
-    customerID: "6",
-    phoneNumber: "Phone 6",
-  },
+  // {
+  //   customerName: "Name 6",
+  //   customerEmail: "EMail 6",
+  //   customerID: "6",
+  //   phoneNumber: "Phone 6",
+  // },
 ];
 
 // Routes
