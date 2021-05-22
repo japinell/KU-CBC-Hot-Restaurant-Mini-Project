@@ -52,20 +52,20 @@ const tables = [
     customerID: "4",
     phoneNumber: "Phone 4",
   },
-  // {
-  //   customerName: "Name 5",
-  //   customerEmail: "EMail 5",
-  //   customerID: "5",
-  //   phoneNumber: "Phone 5",
-  // },
+  {
+    customerName: "Name 5",
+    customerEmail: "EMail 5",
+    customerID: "5",
+    phoneNumber: "Phone 5",
+  },
 ];
 const waitList = [
-  // {
-  //   customerName: "Name 6",
-  //   customerEmail: "EMail 6",
-  //   customerID: "6",
-  //   phoneNumber: "Phone 6",
-  // },
+  {
+    customerName: "Name 6",
+    customerEmail: "EMail 6",
+    customerID: "6",
+    phoneNumber: "Phone 6",
+  },
 ];
 
 // Routes
@@ -98,6 +98,30 @@ app.post("/reserve", (req, res) => {
     res.send(false);
     //
   }
+  //
+});
+
+// Delete the Table Id
+app.get("/tables/delete/:tableId", (req, res) => {
+  //
+  const tableId = req.params.tableId;
+
+  for (let i = 0; i < tables.length; i++) {
+    if (tableId === tables[i].customerID) {
+      tables.splice(i, 1);
+    }
+  }
+  //
+  // Transfers from waitList to tables
+  //
+  if (waitList.length > 0) {
+    //
+    tables.push(waitList.pop());
+    //
+  }
+  //
+  res.redirect("/tables");
+  //return res.json(true);
   //
 });
 

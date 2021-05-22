@@ -111,9 +111,15 @@
 
             // Then display the fields in the HTML (Section Name, Date, URL)
             var listItem = $("<li class='list-group-item mt-4'>");
+            var delItem = $(
+              "<a class='btn btn-danger' href='/tables/delete/" +
+                (i + 1) +
+                "' role='button'><i class='fas fa-user-slash'></i></a>"
+            );
 
             listItem.append(
               $("<h2>").text("Table #" + (i + 1)),
+              delItem,
               $("<hr>"),
               $("<h2>").text("ID: " + data[i].customerID),
               $("<h2>").text("Name: " + data[i].customerName),
@@ -168,7 +174,18 @@
         });
       }
 
+      // This function resets all of the data in our tables. This is intended to let you restart a demo.
+      function delTable() {
+        alert("Deleting...");
+
+        // Clear the tables on the server and then empty the elements on the client
+        $.ajax({ url: "/tables/delete", method: "POST" }).then(function () {
+          alert("Deleted record");
+        });
+      }
+
       $("#clear").on("click", clearTable);
+      $("#delTable").on("click", delTable);
 
       // Run Queries!
       // ==========================================
